@@ -1,0 +1,42 @@
+name: Build Windows Executable
+
+# Define quando essa automação vai rodar
+on:
+  push:
+    branches: [ main ] # Roda toda vez que você fizer um push na branch main
+  workflow_dispatch: # Permite rodar manualmente lá no site do GitHub
+
+jobs:
+  build-windows:
+    runs-on: windows-latest # Pede ao GitHub um computador com Windows
+
+    steps:
+    - name: Baixar o código do repositório
+      uses: actions/checkout@v4
+
+    - name: Configurar o Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Instalar dependências
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller pygame PyOpenGL
+
+    - name: Gerar o executável com PyInstaller
+      run: |
+        pyinstaller --noconsole main.py
+
+    - name: Copiar os Assets (Texturas, Áudios e README)
+      run: |
+        Copy-Item -Path *.jpg -Destination dist\main\
+        Copy-Item -Path *.wav -Destination dist\main\
+        Copy-Item -Path *.mp3 -Destination dist\main\
+        Copy-Item -Path README.txt -Destination dist\main\
+
+    - name: Criar o arquivo para Download (.zip)
+      uses: actions/upload-artifact@v4
+      with:
+        name: Simulador-Boteco-3D-Windows
+        path: dist\main
