@@ -1,5 +1,3 @@
-NOME DO ALUNO: Yan Yoshinori Arakaki
-
 1. DESCRIÇÃO DO PROJETO E MOTIVAÇÃO
 
 O projeto é um "Simulador de Sinuca de Boteco em 3D". O cenário é composto por uma mesa detalhada (com feltro, bordas de madeira e caçapas), um chão xadrez texturizado e bolas de sinuca sob o modelo de iluminação de Phong. O projeto inclui física de colisões e rolamento (com spin), sistema de partículas (pó de giz) e áudio espacial.
