@@ -1,14 +1,18 @@
-name: Build Windows Executable
+name: Build and Release Windows Executable
 
-# Define quando essa automação vai rodar
 on:
   push:
-    branches: [ main ] # Roda toda vez que você fizer um push na branch main
-  workflow_dispatch: # Permite rodar manualmente lá no site do GitHub
+    branches: [ main ]
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build-windows:
-    runs-on: windows-latest # Pede ao GitHub um computador com Windows
+    runs-on: windows-latest
 
     steps:
     - name: Baixar o código do repositório
@@ -22,21 +26,45 @@ jobs:
     - name: Instalar dependências
       run: |
         python -m pip install --upgrade pip
-        pip install pyinstaller pygame PyOpenGL
+        pip install pyinstaller -r requirements.txt
 
     - name: Gerar o executável com PyInstaller
       run: |
-        pyinstaller --noconsole main.py
+        pyinstaller --noconsole --name "Simulador-Boteco-3D" main.py
 
-    - name: Copiar os Assets (Texturas, Áudios e README)
+    - name: Copiar Assets e Documentação
       run: |
-        Copy-Item -Path *.jpg -Destination dist\main\
-        Copy-Item -Path *.wav -Destination dist\main\
-        Copy-Item -Path *.mp3 -Destination dist\main\
-        Copy-Item -Path README.txt -Destination dist\main\
+        if (Test-Path assets) {
+          Copy-Item -Path assets -Recurse -Destination dist\Simulador-Boteco-3D\assets
+        }
+        if (Test-Path README.md) {
+          Copy-Item -Path README.md -Destination dist\Simulador-Boteco-3D\
+        }
+        if (Test-Path LICENSE) {
+          Copy-Item -Path LICENSE -Destination dist\Simulador-Boteco-3D\
+        }
+        if (Test-Path CREDITS.md) {
+          Copy-Item -Path CREDITS.md -Destination dist\Simulador-Boteco-3D\
+        }
 
-    - name: Criar o arquivo para Download (.zip)
+    - name: Compactar build em arquivo ZIP
+      run: |
+        Compress-Archive -Path dist\Simulador-Boteco-3D\* -DestinationPath dist\Simulador-Boteco-3D-Windows.zip
+
+    - name: Upload do Artefato de Build (CI)
       uses: actions/upload-artifact@v4
       with:
         name: Simulador-Boteco-3D-Windows
-        path: dist\main
+        path: dist\Simulador-Boteco-3D-Windows.zip
+
+    - name: Publicar Release no GitHub (Tags)
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v2
+      with:
+        files: dist\Simulador-Boteco-3D-Windows.zip
+        name: Release ${{ github.ref_name }}
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
