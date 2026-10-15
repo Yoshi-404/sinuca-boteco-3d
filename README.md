@@ -8,9 +8,6 @@
 
 > **Disponível em outros idiomas**: [English Version](README_EN.md)
 
-**Aluno**: Yan Yoshinori Arakaki  
-**RGA**: 20210712196401  
-**Disciplina**: Computação Gráfica — UFGD / Engenharia de Computação  
 
 ---
 
