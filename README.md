@@ -4,7 +4,7 @@
 [![Pygame](https://img.shields.io/badge/Pygame-2.5%2B-green.svg)](https://www.pygame.org/)
 [![PyOpenGL](https://img.shields.io/badge/PyOpenGL-3.1%2B-red.svg)](https://pyopengl.sourceforge.net/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Build & Release](https://github.com/Yoshi-404/Pool_Game/actions/workflows/build.yml/badge.svg)](https://github.com/Yoshi-404/Pool_Game/actions)
+[![Build & Release](https://github.com/Yoshi-404/sinuca-boteco-3d/actions/workflows/build.yml/badge.svg)](https://github.com/Yoshi-404/sinuca-boteco-3d/actions)
 
 > **Disponível em outros idiomas**: [English Version](README_EN.md)
 
@@ -93,7 +93,7 @@ Utilizada exclusivamente para a camada de interface (HUD de pontuação, mostrad
 O projeto foi dividido em módulos coesos para facilitar a manutenção e legibilidade:
 
 ```text
-pinball_game/
+sinuca-boteco-3d/
 ├── .github/
 │   └── workflows/
 │       └── build.yml          # CI/CD: Compilação Windows e GitHub Releases
@@ -127,8 +127,8 @@ pinball_game/
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/Yoshi-404/Pool_Game.git
-   cd Pool_Game
+   git clone https://github.com/Yoshi-404/sinuca-boteco-3d.git
+   cd sinuca-boteco-3d
    ```
 
 2. Crie e ative um ambiente virtual (recomendado):
@@ -153,9 +153,9 @@ pinball_game/
 ### Opção B: Download do Executável para Windows (.exe)
 
 Você pode baixar a versão pré-compilada pronta para jogar sem necessidade de instalar Python:
-1. Acesse a aba **[Releases](https://github.com/Yoshi-404/Pool_Game/releases)** no GitHub.
-2. Baixe o arquivo `.zip` da versão mais recente (`Simulador-Boteco-3D-Windows.zip`).
-3. Extraia o conteúdo e execute `Simulador-Boteco-3D.exe`.
+1. Acesse a aba **[Releases](https://github.com/Yoshi-404/sinuca-boteco-3d/releases)** no GitHub.
+2. Baixe o executável direto `Simulador-Boteco-3D.exe` ou o pacote `.zip` da versão mais recente (`Simulador-Boteco-3D-Windows.zip`).
+3. Execute `Simulador-Boteco-3D.exe`.
 
 ---
 

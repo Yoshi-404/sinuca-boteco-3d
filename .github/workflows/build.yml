@@ -28,40 +28,35 @@ jobs:
         python -m pip install --upgrade pip
         pip install pyinstaller -r requirements.txt
 
-    - name: Gerar o executável com PyInstaller
+    - name: Gerar o executável com PyInstaller (OneFile)
       run: |
-        pyinstaller --noconsole --name "Simulador-Boteco-3D" main.py
+        pyinstaller --onefile --noconsole --name "Simulador-Boteco-3D" --add-data "assets;assets" main.py
 
-    - name: Copiar Assets e Documentação
+    - name: Preparar pacote de distribuição e compactar em ZIP
       run: |
-        if (Test-Path assets) {
-          Copy-Item -Path assets -Recurse -Destination dist\Simulador-Boteco-3D\assets
-        }
-        if (Test-Path README.md) {
-          Copy-Item -Path README.md -Destination dist\Simulador-Boteco-3D\
-        }
-        if (Test-Path LICENSE) {
-          Copy-Item -Path LICENSE -Destination dist\Simulador-Boteco-3D\
-        }
-        if (Test-Path CREDITS.md) {
-          Copy-Item -Path CREDITS.md -Destination dist\Simulador-Boteco-3D\
-        }
+        New-Item -ItemType Directory -Path dist\bundle -Force
+        Copy-Item -Path dist\Simulador-Boteco-3D.exe -Destination dist\bundle\
+        Copy-Item -Path README.md -Destination dist\bundle\
+        Copy-Item -Path LICENSE -Destination dist\bundle\
+        Copy-Item -Path CREDITS.md -Destination dist\bundle\
+        Copy-Item -Path assets -Recurse -Destination dist\bundle\assets
+        Compress-Archive -Path dist\bundle\* -DestinationPath dist\Simulador-Boteco-3D-Windows.zip
 
-    - name: Compactar build em arquivo ZIP
-      run: |
-        Compress-Archive -Path dist\Simulador-Boteco-3D\* -DestinationPath dist\Simulador-Boteco-3D-Windows.zip
-
-    - name: Upload do Artefato de Build (CI)
+    - name: Upload dos Artefatos de Build (CI)
       uses: actions/upload-artifact@v4
       with:
         name: Simulador-Boteco-3D-Windows
-        path: dist\Simulador-Boteco-3D-Windows.zip
+        path: |
+          dist/Simulador-Boteco-3D.exe
+          dist/Simulador-Boteco-3D-Windows.zip
 
     - name: Publicar Release no GitHub (Tags)
       if: startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v2
       with:
-        files: dist\Simulador-Boteco-3D-Windows.zip
+        files: |
+          dist/Simulador-Boteco-3D.exe
+          dist/Simulador-Boteco-3D-Windows.zip
         name: Release ${{ github.ref_name }}
         draft: false
         prerelease: false

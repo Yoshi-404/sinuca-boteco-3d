@@ -8,12 +8,22 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def get_asset_path(filename):
     """Localiza arquivos de assets no diretório assets/, raiz ou empacotamento PyInstaller."""
-    # Ambiente empacotado pelo PyInstaller
+    # Ambiente empacotado pelo PyInstaller (onefile)
     if getattr(sys, '_MEIPASS', False):
         candidate_assets = os.path.join(sys._MEIPASS, 'assets', filename)
         if os.path.exists(candidate_assets):
             return candidate_assets
         candidate_root = os.path.join(sys._MEIPASS, filename)
+        if os.path.exists(candidate_root):
+            return candidate_root
+
+    # Ambiente empacotado pelo PyInstaller (onedir / frozen)
+    if getattr(sys, 'frozen', False):
+        exe_dir = os.path.dirname(sys.executable)
+        candidate_assets = os.path.join(exe_dir, 'assets', filename)
+        if os.path.exists(candidate_assets):
+            return candidate_assets
+        candidate_root = os.path.join(exe_dir, filename)
         if os.path.exists(candidate_root):
             return candidate_root
 
