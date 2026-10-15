@@ -8,9 +8,6 @@
 
 > **Language switch**: [Versão em Português](README.md)
 
-**Student**: Yan Yoshinori Arakaki  
-**Academic ID (RGA)**: 20210712196401  
-**Course**: Computer Graphics — UFGD / Computer Engineering  
 
 ---
 
